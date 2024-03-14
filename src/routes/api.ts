@@ -27,6 +27,9 @@ export const apiRoute = new Elysia({ aot: false }).guard(
         });
 
         const text = body.Text.replaceAll("@", "@.");
+        if (text.includes('その場で当たるチャンス')) {
+          return { success: false, reason: 'Campaign post was skipped' };
+        }
 
         await masto.v1.statuses.create({
           status: `${text}\n\n${body.LinkToTweet}`,
